@@ -30,4 +30,5 @@ using ScienceKit
 
     include("lifecycle_tests.jl")
     include("arrays_tests.jl")
+    include("operations_tests.jl")
 end

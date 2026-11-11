@@ -48,13 +48,19 @@ export Status,
     ConversionReport,
     inspect_matrix_conversion,
     inspect_vector_conversion,
-    extract_table
+    extract_table,
+    fit,
+    fit_table,
+    predict,
+    transform,
+    score
 
 include("errors.jl")
 include("ffi.jl")
 include("handles.jl")
 include("arrays.jl")
 include("tables.jl")
+include("operations.jl")
 
 function __init__()
     _init_ffi!()
