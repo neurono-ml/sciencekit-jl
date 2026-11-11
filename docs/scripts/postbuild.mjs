@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const BASE_URL = 'https://neurono-ml.github.io/sciencekit-jl/';
 const BOOK_DIR = fileURLToPath(new URL('../book', import.meta.url));
 const SKIPPED_PAGES = new Set(['print.html', '404.html', 'toc.html']);
-const VERIFICATION_FILE = /^google[0-9a-f]+\.html$/i;
+const VERIFICATION_FILE = /^(google[0-9a-z]+\.html|bingsiteauth.*)$/i;
 
 async function listHtmlFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
