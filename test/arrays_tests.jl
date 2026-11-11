@@ -71,6 +71,15 @@
     @test X_tbl[:, 2] == [0.0, 0.0, 1.0, 3.0]
     @test y_tbl == [1.0, 3.0, 4.0, 14.0]
 
+    # Row-table Vector{NamedTuple} and Dict table containers
+    row_tbl = [(x1 = 0.0, x2 = 0.0, y = 1.0), (x1 = 1.0, x2 = 0.0, y = 3.0)]
+    X_rows, y_rows = extract_table(row_tbl; features=[:x1, :x2], target=:y)
+    @test size(X_rows) == (2, 2) && y_rows == [1.0, 3.0]
+
+    dict_tbl = Dict(:x1 => [0.0, 2.0], :x2 => [1.0, 3.0], :y => [4.0, 14.0])
+    X_dict, y_dict = extract_table(dict_tbl; features=[:x1, :x2], target=:y)
+    @test size(X_dict) == (2, 2) && y_dict == [4.0, 14.0]
+
     # Unknown column raises KeyError
     @test_throws KeyError extract_table(tbl; features=[:x1, :missing_col])
 
