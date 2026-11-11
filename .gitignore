@@ -1,0 +1,14 @@
+# Native shared library produced by `scripts/build-native-library.sh`.
+/lib/*.so
+/lib/*.so.*
+/lib/*.dylib
+/lib/*.dll
+
+# Julia package artifacts and coverage files.
+Manifest.toml
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+
+# Local documentation build output.
+/docs/book/
