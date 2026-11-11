@@ -44,11 +44,17 @@ export Status,
     set_backend!,
     close!,
     is_closed,
-    live_handle_count
+    live_handle_count,
+    ConversionReport,
+    inspect_matrix_conversion,
+    inspect_vector_conversion,
+    extract_table
 
 include("errors.jl")
 include("ffi.jl")
 include("handles.jl")
+include("arrays.jl")
+include("tables.jl")
 
 function __init__()
     _init_ffi!()

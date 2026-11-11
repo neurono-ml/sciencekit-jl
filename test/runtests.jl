@@ -29,4 +29,5 @@ using ScienceKit
     end
 
     include("lifecycle_tests.jl")
+    include("arrays_tests.jl")
 end
