@@ -1,0 +1,62 @@
+name: CI
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Build sciencekit_ffi and run the Julia test suite
+    runs-on: ubuntu-latest
+    env:
+      JULIA_VERSION: "1.10.5"
+    steps:
+      - name: Checkout sciencekit-jl
+        uses: actions/checkout@v4
+        with:
+          path: sciencekit-jl
+          persist-credentials: false
+
+      - name: Checkout neurono-ml/sciencekit
+        uses: actions/checkout@v4
+        with:
+          repository: neurono-ml/sciencekit
+          path: sciencekit
+          persist-credentials: false
+
+      - name: Install Rust 1.85 toolchain
+        uses: dtolnay/rust-toolchain@1.85
+
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: sciencekit
+
+      - name: Install Julia from the official tarball
+        run: |
+          curl -fsSL "https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-${JULIA_VERSION}-linux-x86_64.tar.gz" \
+            | sudo tar -C /opt -xz
+          sudo ln -sf "/opt/julia-${JULIA_VERSION}/bin/julia" /usr/local/bin/julia
+          julia --version
+
+      - name: Pin psm for MSRV 1.85 compatibility
+        working-directory: sciencekit
+        run: cargo update -p psm --precise 0.1.24
+
+      - name: Verify vendored sciencekit.h matches main repository
+        working-directory: sciencekit-jl
+        run: scripts/sync-header.sh --check "$GITHUB_WORKSPACE/sciencekit"
+
+      - name: Build and install the native sciencekit_ffi shared library
+        working-directory: sciencekit-jl
+        run: scripts/build-native-library.sh "$GITHUB_WORKSPACE/sciencekit"
+
+      - name: Run Julia package tests
+        working-directory: sciencekit-jl
+        env:
+          JULIA_NUM_THREADS: "4"
+        run: julia --project -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
