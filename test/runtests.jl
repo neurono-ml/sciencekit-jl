@@ -27,4 +27,6 @@ using ScienceKit
         @test occursin("shape", sprint(showerror, err))
         @test occursin("row count mismatch", sprint(showerror, err))
     end
+
+    include("lifecycle_tests.jl")
 end

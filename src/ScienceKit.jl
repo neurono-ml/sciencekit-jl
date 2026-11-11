@@ -33,10 +33,22 @@ export Status,
     features,
     has_feature,
     status_name,
-    library_path
+    library_path,
+    Builder,
+    Model,
+    linear_regression_builder,
+    standard_scaler_builder,
+    set_include_intercept!,
+    set_with_mean!,
+    set_with_std!,
+    set_backend!,
+    close!,
+    is_closed,
+    live_handle_count
 
 include("errors.jl")
 include("ffi.jl")
+include("handles.jl")
 
 function __init__()
     _init_ffi!()
