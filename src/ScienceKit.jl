@@ -53,7 +53,9 @@ export Status,
     fit_table,
     predict,
     transform,
-    score
+    score,
+    save,
+    load
 
 include("errors.jl")
 include("ffi.jl")
@@ -61,6 +63,7 @@ include("handles.jl")
 include("arrays.jl")
 include("tables.jl")
 include("operations.jl")
+include("persistence.jl")
 
 function __init__()
     _init_ffi!()
